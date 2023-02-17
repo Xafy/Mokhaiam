@@ -4,9 +4,14 @@ const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate');
 const session = require('express-session')
 const flash = require('connect-flash')
+const passport = require('passport');
+const LocalStrategy = require('passport-local')
 
+const userRoutes = require('./routes/users')
 const campgroundRoutes = require('./routes/campgrounds')
 const reviewsRoutes = require('./routes/reviews')
+
+const User = require('./models/user')
 
 const ExpressError = require("./utils/ExpressError")
 
@@ -37,10 +42,18 @@ app.use(session({'secret': 'thisisasecret',
                     expires: Date.now() + 1000 * 60 * 60 * 24 * 7, //that means a week
                     maxAge: 1000 * 60 * 60 * 24 * 7
                 }
-                }))
-app.use(flash())
+                }));
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 app.use((req, res, next)=>{
+    console.log(req.session)
+    res.locals.currentUser = req.user;
     res.locals.success = req.flash('success')
     res.locals.error = req.flash('error')
     next();
@@ -48,6 +61,7 @@ app.use((req, res, next)=>{
 
 app.get('/', (req,res)=>{res.render('home')})
 
+app.use('/users', userRoutes)
 app.use('/campgrounds', campgroundRoutes )
 app.use('/campgrounds/:id/reviews/', reviewsRoutes )
 
@@ -58,7 +72,6 @@ app.all('*', (req, res, next)=>{
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;
     if (!err.message) err.message = 'Oh No, Something Went Wrong!'
-    req.flash('error', `${err.message}`)
     res.status(statusCode).render('error', { err })
 })
 
