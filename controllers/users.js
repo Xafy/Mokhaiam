@@ -26,7 +26,6 @@ const getLoginForm = (req, res, next)=>{
 
 const Login = (req, res) => {
     req.flash('success', 'welcome back!');
-    console.log(req.session.returnTo)
     const redirectUrl = req.session.returnTo || '/campgrounds';
     delete req.session.returnTo;
     res.redirect(redirectUrl);
