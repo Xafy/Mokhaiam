@@ -8,7 +8,11 @@
         <div class="card" mb-3>
             <div class="row">
                 <div class="col-md-4">
-                    <img class="img-fluid" alt="" src="<%= camp.images[0].url %>">
+                    <% if (camp.images.length) { %>
+                        <img class="img-fluid" alt="" src="<%= camp.images[0].url %>">
+                    <% } else { %> 
+                        <img class="img-fluid" alt="" src="https://t4.ftcdn.net/jpg/04/00/24/31/360_F_400243185_BOxON3h9avMUX10RsDkt3pJ8iQx72kS3.jpg">
+                    <% } %> 
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">

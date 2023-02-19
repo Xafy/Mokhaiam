@@ -24,16 +24,21 @@ const seedDb = async () => {
             author: '63eeec4f7005fa11d2c048e9',
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             title: `${sample(descriptors)} ${sample(places)}`,
-            images: [  
-                        {
-                        url: 'https://res.cloudinary.com/ddtxmco2i/image/upload/v1676754785/Almokhaiam/tswg9bamfbzxpcnbzhlq.jpg',
-                        filename: 'Almokhaiam/tswg9bamfbzxpcnbzhlq'
-                        },
-                        {
-                        url: 'https://res.cloudinary.com/ddtxmco2i/image/upload/v1676754785/Almokhaiam/xvxc2dcqwmncmcjcnudw.jpg',
-                        filename: 'Almokhaiam/xvxc2dcqwmncmcjcnudw'
-                        }
-                    ],
+            images: [
+                {
+                    url: 'https://res.cloudinary.com/ddtxmco2i/image/upload/v1676833008/Almokhaiam/kxmnltum9snb7g49glpb.jpg',
+                    filename: 'Almokhaiam/kxmnltum9snb7g49glpb',
+                },
+                {
+                    url: 'https://res.cloudinary.com/ddtxmco2i/image/upload/v1676833008/Almokhaiam/njmx7aycovxxuelmlw8u.jpg',
+                    filename: 'Almokhaiam/njmx7aycovxxuelmlw8u',
+                },
+                {
+                    url: 'https://res.cloudinary.com/ddtxmco2i/image/upload/v1676833008/Almokhaiam/nvtcmsjcxqdvuv7jai67.jpg',
+                    filename: 'Almokhaiam/nvtcmsjcxqdvuv7jai67',
+                }
+                ],
+            geometry: { type: 'Point', coordinates: [ 31.38649, 31.037566 ] },
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',
             price
         })
