@@ -10,6 +10,7 @@ const session = require('express-session')
 const flash = require('connect-flash')
 const passport = require('passport');
 const LocalStrategy = require('passport-local')
+const mongoSanitize = require('express-mongo-sanitize')
 
 const userRoutes = require('./routes/users')
 const campgroundRoutes = require('./routes/campgrounds')
@@ -48,6 +49,7 @@ app.use(session({'secret': 'thisisasecret',
                 }
                 }));
 app.use(flash());
+app.use(mongoSanitize({replaceWith: '!'}))
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()))
@@ -56,6 +58,7 @@ passport.deserializeUser(User.deserializeUser());
 
 
 app.use((req, res, next)=>{
+    console.log(req.query)
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success')
     res.locals.error = req.flash('error')
