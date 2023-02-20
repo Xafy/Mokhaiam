@@ -13,6 +13,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local')
 const mongoSanitize = require('express-mongo-sanitize')
 const helmet = require('helmet')
+const MongoStore = require('connect-mongo');
 
 const userRoutes = require('./routes/users')
 const campgroundRoutes = require('./routes/campgrounds')
@@ -23,8 +24,9 @@ const User = require('./models/user')
 const ExpressError = require("./utils/ExpressError")
 
 const mongoose = require('mongoose');
+const dbUrl = 'mongodb://127.0.0.1:27017/mokhaiam'
 mongoose.set('strictQuery',false);
-mongoose.connect('mongodb://127.0.0.1:27017/mokhaiam');
+mongoose.connect(dbUrl);
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
@@ -41,7 +43,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded( {extended: true}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+const store = new MongoStore({
+    mongoUrl: dbUrl,
+    secret: 'thisisasecret',
+    touchAfter: 25 * 60 * 60
+})
+
+store.on("error", function(error){ console.log("SESSION STORE ERROR: ", error)})
+
 app.use(session({'secret': 'thisisasecret',
+                store,
                 resave: false,
                 saveUninitialized: true,
                 cookie: {
@@ -108,7 +120,6 @@ app.use(
 
 
 app.use((req, res, next)=>{
-    console.log(req.query)
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success')
     res.locals.error = req.flash('error')

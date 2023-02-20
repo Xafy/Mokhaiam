@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { campgroundSchema } = require('../utils/joiSchemas');
 const Review = require('./review')
 const Schema = mongoose.Schema;
 
