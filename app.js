@@ -41,21 +41,10 @@ app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(flash());
 app.use(express.urlencoded( {extended: true}));
-app.use((req, res, next)=>{
-    res.locals.currentUser = req.user;
-    res.locals.success = req.flash('success')
-    res.locals.error = req.flash('error')
-    next();
-})
-
-
 app.use(bodyParser.json())
 app.use(methodOverride('_method'));
-
-
+app.use(express.static(path.join(__dirname, 'public')));
 
 const secret = process.env.SECRET || 'thisisasecret';
 
@@ -80,6 +69,7 @@ app.use(session({
                     maxAge: 1000 * 60 * 60 * 24 * 7
                 }
                 }));
+app.use(flash());
 app.use(mongoSanitize({replaceWith: '!'}))
 app.use(passport.initialize());
 app.use(passport.session());
@@ -132,6 +122,14 @@ app.use(
         },
     })
 );
+
+
+app.use((req, res, next)=>{
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success')
+    res.locals.error = req.flash('error')
+    next();
+})
 
 app.get('/', (req,res)=>{res.render('home')})
 
