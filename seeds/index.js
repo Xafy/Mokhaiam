@@ -38,7 +38,10 @@ const seedDb = async () => {
                     filename: 'Almokhaiam/nvtcmsjcxqdvuv7jai67',
                 }
                 ],
-            geometry: { type: 'Point', coordinates: [ 31.38649, 31.037566 ] },
+            geometry: { type: 'Point', coordinates: [
+                        cities[random1000].longitude,
+                        cities[random1000].latitude
+                    ] },
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',
             price
         })
