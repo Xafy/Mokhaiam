@@ -24,7 +24,7 @@ const User = require('./models/user')
 const ExpressError = require("./utils/ExpressError")
 
 const mongoose = require('mongoose');
-const dbUrl = 'mongodb://127.0.0.1:27017/mokhaiam'
+const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/mokhaiam'
 mongoose.set('strictQuery',false);
 mongoose.connect(dbUrl);
 
@@ -44,15 +44,18 @@ app.use(express.urlencoded( {extended: true}));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+const secret = process.env.SECRET || 'thisisasecret';
+
 const store = new MongoStore({
     mongoUrl: dbUrl,
-    secret: 'thisisasecret',
+    secret: secret,
     touchAfter: 25 * 60 * 60
 })
 
 store.on("error", function(error){ console.log("SESSION STORE ERROR: ", error)})
 
-app.use(session({'secret': 'thisisasecret',
+app.use(session({
+                secret: secret,
                 store,
                 resave: false,
                 saveUninitialized: true,
@@ -142,7 +145,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
-
-app.listen(3000, ()=>{
-    console.log(`server is running on http://localhost:3000/ `)
+const port = process.env.PORT || 3000;
+app.listen(port, ()=>{
+    console.log(`server is running on http://localhost:${port}/ `)
 })
