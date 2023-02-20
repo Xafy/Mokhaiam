@@ -2,32 +2,35 @@
 <div>
     <div id="cluster-map"></div>
 </div>
-
-<h1>All campgrounds</h1>
-<ul>
-    <% for( let camp of camps ) { %>
-        <div class="card mb-3" >
-            <div class="row">
-                <div class="col-md-4">
-                    <% if (camp.images.length) { %>
-                        <img class="img-fluid" alt="" src="<%= camp.images[0].url %>">
-                    <% } else { %> 
-                        <img class="img-fluid" alt="" src="https://t4.ftcdn.net/jpg/04/00/24/31/360_F_400243185_BOxON3h9avMUX10RsDkt3pJ8iQx72kS3.jpg">
-                    <% } %> 
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= camp.title %> </h5>
-                        <p class="card-text"><%= camp.description %></p>
-                        <p class="card-text">
-                            <small class="text-muted"><%= camp.location%></small>
-                        </p>
-                        <a class="btn btn-primary" href="/campgrounds/<%=camp._id%>">View <%=camp.title%></a>
+<div class="container p-2">
+    <h1 class="text-center">All campgrounds</h1>
+    <ul>
+        <% for( let camp of camps ) { %>
+            <div class="card mb-3" >
+                <div class="row">
+                    <div class="col-md-4">
+                        <% if (camp.images.length) { %>
+                            <img class="img-fluid index-img" alt="" src="<%= camp.images[0].url %>">
+                        <% } else { %> 
+                            <img class="img-fluid index-img" alt="" src="https://t4.ftcdn.net/jpg/04/00/24/31/360_F_400243185_BOxON3h9avMUX10RsDkt3pJ8iQx72kS3.jpg">
+                        <% } %> 
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= camp.title %> </h5>
+                            <p class="card-text"><%= camp.description %></p>
+                            <p class="card-text">
+                                <small class="text-muted"><%= camp.location%></small>
+                            </p>
+                            <a class="btn btn-primary" href="/campgrounds/<%=camp._id%>">View <%=camp.title%></a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>    <% } %>
-</ul>
+            </div>    <% } %>
+    </ul>
+</div>
+
+
 
 <script>
     const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
