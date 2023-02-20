@@ -43,7 +43,9 @@ app.use(session({'secret': 'thisisasecret',
                 resave: false,
                 saveUninitialized: true,
                 cookie: {
+                    name: '__mo5',
                     httpOnly: true,
+                    // secure: true,
                     expires: Date.now() + 1000 * 60 * 60 * 24 * 7, //that means a week
                     maxAge: 1000 * 60 * 60 * 24 * 7
                 }
