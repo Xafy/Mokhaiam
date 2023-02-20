@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const Campground = require('../models/campground')
-const cities = require('./cities');
+const cities = require('./egypt_cities');
 const {places, descriptors} = require('./seedHelpers')
 
 mongoose.set('strictQuery',false);
-mongoose.connect('mongodb://127.0.0.1:27017/mokhaiam');
+mongoose.connect('mongodb+srv://MokhaiamAdmin:IlSEVHknbKWnsxLk@almokhaiamdb.u9hml5d.mongodb.net/almokhaiam?retryWrites=true&w=majority');
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error: "));
@@ -18,11 +18,12 @@ const sample = array => array[Math.floor(Math.random() * array.length)]
 const seedDb = async () => {
     await Campground.deleteMany({});
     for (let i=0; i<50; i++){
-        const random1000 = Math.floor(Math.random() * 1000);
+        // const random1000 = Math.floor(Math.random() * 1000);
+        const random70 = Math.floor(Math.random() * 70);
         const price = Math.floor(Math.random() * 20) + 10;
         const camp = new Campground({
-            author: '63eeec4f7005fa11d2c048e9',
-            location: `${cities[random1000].city}, ${cities[random1000].state}`,
+            author: '63f2f35ef41017b09fd4cd86',
+            location: `${cities[random70].city}, ${cities[random70].state}`,
             title: `${sample(descriptors)} ${sample(places)}`,
             images: [
                 {
@@ -39,10 +40,10 @@ const seedDb = async () => {
                 }
                 ],
             geometry: { type: 'Point', coordinates: [
-                        cities[random1000].longitude,
-                        cities[random1000].latitude
+                        cities[random70].longitude,
+                        cities[random70].latitude
                     ] },
-            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',
+            description: 'This is a random description for the camp created by random seeds to the database',
             price
         })
         await camp.save();
