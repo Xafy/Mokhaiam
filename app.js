@@ -5,6 +5,7 @@ if (process.env.NODE_ENV !== "production"){
 
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const ejsMate = require('ejs-mate');
 const session = require('express-session')
@@ -41,8 +42,15 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded( {extended: true}));
+app.use(bodyParser.json())
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use((req, res, next)=>{
+    res.locals.currentUser = req.user;
+    res.locals.success = req.flash('success')
+    res.locals.error = req.flash('error')
+    next();
+})
 
 const secret = process.env.SECRET || 'thisisasecret';
 
@@ -120,14 +128,6 @@ app.use(
         },
     })
 );
-
-
-app.use((req, res, next)=>{
-    res.locals.currentUser = req.user;
-    res.locals.success = req.flash('success')
-    res.locals.error = req.flash('error')
-    next();
-})
 
 app.get('/', (req,res)=>{res.render('home')})
 
